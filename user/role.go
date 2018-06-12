@@ -34,3 +34,9 @@ type RoleRepo interface {
 
 	FindByUser(userID uuid.UUID) ([]*Role, error)
 }
+
+type RoleUserRepo interface {
+	UserHasRole(userID, roleID uuid.UUID) (bool, error)
+	Attach(userID, roleID uuid.UUID) error
+	Detach(userID, roleID uuid.UUID) error
+}
