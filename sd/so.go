@@ -1,4 +1,4 @@
-package sales
+package sd
 
 import (
 	"github.com/rhymond/go-money"
@@ -28,4 +28,11 @@ type SODetail struct {
 
 func (sod *SODetail) GetSubTotal() (*money.Money, error) {
 	return sod.UnitPrice.Multiply(sod.Qty).Subtract(sod.Discount)
+}
+
+type SORepo interface {
+	Create(*SO) error
+	Update(*SO) error
+	Delete(uuid.UUID) error
+	Find(uuid.UUID) (*SO, error)
 }
