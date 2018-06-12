@@ -5,15 +5,15 @@ import (
 	uuid "github.com/satori/go.uuid"
 )
 
-type PermissionUseCase interface {
-	UserHasPermission(userID uuid.UUID, permission string) (bool, error)
+type AuthorizationUseCase interface {
+	IsUserAuthorized(userID uuid.UUID, permission string) (bool, error)
 }
 
-type permissionUseCase struct {
+type authorizationUseCase struct {
 	repo user.RoleRepo
 }
 
-func (uc *permissionUseCase) UserHasPermission(userID uuid.UUID, permission string) (
+func (uc *authorizationUseCase) IsUserAuthorized(userID uuid.UUID, permission string) (
 	permitted bool, err error) {
 
 	permitted = false

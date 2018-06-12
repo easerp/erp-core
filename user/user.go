@@ -20,4 +20,5 @@ type UserRepo interface {
 	Delete(uuid.UUID) error
 
 	FindByEmail(email string) (*User, error)
+	FindByLogin(login string) (*User, error)
 }

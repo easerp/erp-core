@@ -48,14 +48,14 @@ func (repo *mockRoleRepo) FindByUser(userID uuid.UUID) ([]*user.Role, error) {
 }
 
 func TestUserHasPermission(t *testing.T) {
-	uc := &permissionUseCase{&mockRoleRepo{}}
+	uc := &authorizationUseCase{&mockRoleRepo{}}
 
 	userID, err := uuid.NewV4()
 	if err != nil {
 		t.Error(err)
 	}
 
-	permitted, err := uc.UserHasPermission(userID, "create-user")
+	permitted, err := uc.IsUserAuthorized(userID, "create-user")
 	if err != nil {
 		t.Error(err)
 	}
@@ -64,7 +64,7 @@ func TestUserHasPermission(t *testing.T) {
 		t.Errorf("Should be permitted to create-user")
 	}
 
-	permitted, err = uc.UserHasPermission(userID, "update-user")
+	permitted, err = uc.IsUserAuthorized(userID, "update-user")
 	if err != nil {
 		t.Error(err)
 	}
