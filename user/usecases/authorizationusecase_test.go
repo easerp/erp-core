@@ -47,15 +47,27 @@ func (repo *mockRoleRepo) FindByUser(userID uuid.UUID) ([]*user.Role, error) {
 	return []*user.Role{role}, nil
 }
 
-func TestUserHasPermission(t *testing.T) {
-	uc := &authorizationUseCase{&mockRoleRepo{}}
+type mockContext struct {
+	UserID uuid.UUID
+}
 
+func (ctx *mockContext) GetUserID() (uuid.UUID, error) {
+	return ctx.UserID, nil
+}
+
+func TestIsAuthorized(t *testing.T) {
 	userID, err := uuid.NewV4()
 	if err != nil {
 		t.Error(err)
 	}
 
-	permitted, err := uc.IsUserAuthorized(userID, "create-user")
+	ctx := &mockContext{userID}
+	uc := &authorizationUseCase{
+		&mockRoleRepo{},
+		ctx,
+	}
+
+	permitted, err := uc.IsAuthorized("create-user")
 	if err != nil {
 		t.Error(err)
 	}
@@ -64,12 +76,39 @@ func TestUserHasPermission(t *testing.T) {
 		t.Errorf("Should be permitted to create-user")
 	}
 
-	permitted, err = uc.IsUserAuthorized(userID, "update-user")
+	permitted, err = uc.IsAuthorized("update-user")
 	if err != nil {
 		t.Error(err)
 	}
 
 	if permitted {
 		t.Errorf("Should not be permitted to update-user")
+	}
+}
+
+func TestAuthorize(t *testing.T) {
+	userID, err := uuid.NewV4()
+	if err != nil {
+		t.Error(err)
+	}
+
+	ctx := &mockContext{userID}
+	uc := &authorizationUseCase{
+		&mockRoleRepo{},
+		ctx,
+	}
+
+	err = uc.Authorize("create-user")
+	if err != nil {
+		t.Error(err)
+	}
+
+	err = uc.Authorize("update-user")
+	if err == nil {
+		t.Errorf("Error is expected")
+	}
+
+	if err.Error() != "Unauthorized" {
+		t.Errorf("Expected error: %s, actual: %s", "Unauthorized", err.Error())
 	}
 }

@@ -19,12 +19,16 @@ func (uc *authenticationUseCase) Authenticate(login, password string) (
 
 	usr, err = uc.repo.FindByLogin(login)
 	if err != nil {
+		//TODO
+		//unauthenticated error type
 		err = errors.New("Invalid Credential")
 		return
 	}
 
 	valid := user.CheckPasswordHash(password, usr.Password)
 	if !valid {
+		//TODO
+		//unauthenticated error type
 		err = errors.New("Invalid Credential")
 		return
 	}
