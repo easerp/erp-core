@@ -1,16 +1,17 @@
 package sd
 
 import (
+	"time"
+
 	"github.com/rhymond/go-money"
 	"github.com/satori/go.uuid"
-	"time"
 )
 
 type SO struct {
-	ID             uuid.UUID
-	DocumentNumber string
+	ID             uuid.UUID `validate:required`
+	DocumentNumber string    `validate:required`
 	CustomerID     uuid.UUID
-	Date           time.Time
+	Date           time.Time `validate:required`
 	CreatedAt      time.Time
 	UpdatedAt      time.Time
 	IsApplied      bool
@@ -18,11 +19,11 @@ type SO struct {
 }
 
 type SODetail struct {
-	ID         uuid.UUID
-	LineNumber int
-	ProductID  uuid.UUID
-	Qty        int64
-	UnitPrice  *money.Money
+	ID         uuid.UUID    `validate:required`
+	LineNumber int          `validate:required`
+	ProductID  uuid.UUID    `validate:required`
+	Qty        int64        `validate:required`
+	UnitPrice  *money.Money `validate:required`
 	Discount   *money.Money
 }
 

@@ -14,6 +14,12 @@ type registerUseCase struct {
 	repo user.UserRepo
 }
 
+func NewRegisterUseCase(repo user.UserRepo) *registerUseCase {
+	return &registerUseCase{
+		repo,
+	}
+}
+
 func (uc *registerUseCase) RegisterUser(login, password, email, firstname, lastname string) (
 	usr *user.User, err error) {
 

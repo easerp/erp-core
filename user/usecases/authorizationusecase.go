@@ -1,11 +1,17 @@
 package usecases
 
 import (
-	"errors"
-
 	"github.com/flexrp/flexrp.core/user"
 	uuid "github.com/satori/go.uuid"
 )
+
+type AuthorizationError struct {
+	err string
+}
+
+func (ae *AuthorizationError) Error() string {
+	return ae.err
+}
 
 type AuthorizationUseCase interface {
 	IsAuthorized(permission string) (bool, error)
@@ -40,9 +46,7 @@ func (uc *authorizationUseCase) Authorize(permission string) (err error) {
 	}
 
 	if !authorized {
-		//TODO
-		//unauthorized error type
-		err = errors.New("Unauthorized")
+		return &AuthorizationError{"Unauthorized"}
 		return
 	}
 	return

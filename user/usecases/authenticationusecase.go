@@ -1,10 +1,16 @@
 package usecases
 
 import (
-	"errors"
-
 	"github.com/flexrp/flexrp.core/user"
 )
+
+type AuthenticationError struct {
+	err string
+}
+
+func (ae *AuthenticationError) Error() string {
+	return ae.err
+}
 
 type AuthenticationUseCase interface {
 	Authenticate(login, password string) (usr *user.User, err error)
@@ -19,17 +25,13 @@ func (uc *authenticationUseCase) Authenticate(login, password string) (
 
 	usr, err = uc.repo.FindByLogin(login)
 	if err != nil {
-		//TODO
-		//unauthenticated error type
-		err = errors.New("Invalid Credential")
+		err = &AuthenticationError{"Invalid Credential"}
 		return
 	}
 
 	valid := user.CheckPasswordHash(password, usr.Password)
 	if !valid {
-		//TODO
-		//unauthenticated error type
-		err = errors.New("Invalid Credential")
+		err = &AuthenticationError{"Invalid Credential"}
 		return
 	}
 
