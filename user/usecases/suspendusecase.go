@@ -1,7 +1,7 @@
 package usecases
 
 import (
-	"github.com/flexrp/flexrp.core/user"
+	"github.com/easerp/erp-core/user"
 	uuid "github.com/satori/go.uuid"
 )
 

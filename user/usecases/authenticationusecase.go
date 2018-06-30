@@ -1,7 +1,7 @@
 package usecases
 
 import (
-	"github.com/flexrp/flexrp.core/user"
+	"github.com/easerp/erp-core/user"
 )
 
 type AuthenticationError struct {

@@ -1,9 +1,10 @@
 package usecases
 
 import (
-	"github.com/satori/go.uuid"
-	"github.com/flexrp/flexrp.core/inv"
 	"errors"
+
+	"github.com/easerp/erp-core/inv"
+	"github.com/satori/go.uuid"
 )
 
 type GRUseCase interface {

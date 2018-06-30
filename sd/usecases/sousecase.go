@@ -2,7 +2,7 @@ package usecases
 
 import (
 	"github.com/arseto/validator"
-	"github.com/flexrp/flexrp.core/sd"
+	"github.com/easerp/erp-core/sd"
 	"github.com/satori/go.uuid"
 )
 
