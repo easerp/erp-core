@@ -1,33 +1,32 @@
-package usecases
+package core
 
 import (
 	"testing"
 
-	"github.com/easerp/erp-core/user"
 	uuid "github.com/satori/go.uuid"
 )
 
 type mockRoleRepo struct{}
 
-func (repo *mockRoleRepo) Create(*user.Role) error {
+func (repo *mockRoleRepo) Create(*Role) error {
 	return nil
 }
 
-func (repo *mockRoleRepo) Update(*user.Role) error {
+func (repo *mockRoleRepo) Update(*Role) error {
 	return nil
 }
 
-func (repo *mockRoleRepo) Find(uuid.UUID) (*user.Role, error) {
+func (repo *mockRoleRepo) Find(uuid.UUID) (*Role, error) {
 	return repo.getMockRole()
 }
 
-func (repo *mockRoleRepo) getMockRole() (*user.Role, error) {
+func (repo *mockRoleRepo) getMockRole() (*Role, error) {
 	roleID, err := uuid.NewV4()
 	if err != nil {
 		return nil, err
 	}
 
-	role := &user.Role{
+	role := &Role{
 		roleID,
 		"tester",
 		[]string{"create-user"},
@@ -39,12 +38,12 @@ func (repo *mockRoleRepo) Delete(uuid.UUID) error {
 	return nil
 }
 
-func (repo *mockRoleRepo) FindByUser(userID uuid.UUID) ([]*user.Role, error) {
+func (repo *mockRoleRepo) FindByUser(userID uuid.UUID) ([]*Role, error) {
 	role, err := repo.getMockRole()
 	if err != nil {
 		return nil, err
 	}
-	return []*user.Role{role}, nil
+	return []*Role{role}, nil
 }
 
 type mockContext struct {

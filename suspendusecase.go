@@ -1,7 +1,6 @@
-package usecases
+package core
 
 import (
-	"github.com/easerp/erp-core/user"
 	uuid "github.com/satori/go.uuid"
 )
 
@@ -11,7 +10,7 @@ type SuspendUseCase interface {
 }
 
 type suspendUseCase struct {
-	repo user.UserRepo
+	repo UserRepo
 }
 
 func (uc *suspendUseCase) SuspendUser(userID uuid.UUID) (err error) {

@@ -1,8 +1,4 @@
-package usecases
-
-import (
-	"github.com/easerp/erp-core/user"
-)
+package core
 
 type AuthenticationError struct {
 	err string
@@ -13,15 +9,15 @@ func (ae *AuthenticationError) Error() string {
 }
 
 type AuthenticationUseCase interface {
-	Authenticate(login, password string) (usr *user.User, err error)
+	Authenticate(login, password string) (usr User, err error)
 }
 
 type authenticationUseCase struct {
-	repo user.UserRepo
+	repo UserRepo
 }
 
 func (uc *authenticationUseCase) Authenticate(login, password string) (
-	usr *user.User, err error) {
+	usr *User, err error) {
 
 	usr, err = uc.repo.FindByLogin(login)
 	if err != nil {
@@ -29,7 +25,7 @@ func (uc *authenticationUseCase) Authenticate(login, password string) (
 		return
 	}
 
-	valid := user.CheckPasswordHash(password, usr.Password)
+	valid := CheckPasswordHash(password, usr.Password)
 	if !valid {
 		err = &AuthenticationError{"Invalid Credential"}
 		return

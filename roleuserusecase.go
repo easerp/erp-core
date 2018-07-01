@@ -1,9 +1,8 @@
-package usecases
+package core
 
 import (
 	"errors"
 
-	"github.com/easerp/erp-core/user"
 	uuid "github.com/satori/go.uuid"
 )
 
@@ -13,9 +12,9 @@ type RoleUserUseCase interface {
 }
 
 type roleUserUseCase struct {
-	repo     user.RoleUserRepo
-	userRepo user.UserRepo
-	roleRepo user.RoleRepo
+	repo     RoleUserRepo
+	userRepo UserRepo
+	roleRepo RoleRepo
 }
 
 func (uc *roleUserUseCase) AddRoleToUser(userID, roleID uuid.UUID) (err error) {

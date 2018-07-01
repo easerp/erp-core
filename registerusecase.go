@@ -1,39 +1,38 @@
-package usecases
+package core
 
 import (
-	"github.com/easerp/erp-core/user"
 	uuid "github.com/satori/go.uuid"
 )
 
 type RegisterUseCase interface {
-	RegisterUser(login, password, email, firstname, lastname string) (*user.User, error)
+	RegisterUser(login, password, email, firstname, lastname string) (User, error)
 	ActivateUser(email string) error
 }
 
 type registerUseCase struct {
-	repo user.UserRepo
+	repo UserRepo
 }
 
-func NewRegisterUseCase(repo user.UserRepo) *registerUseCase {
+func NewRegisterUseCase(repo UserRepo) *registerUseCase {
 	return &registerUseCase{
 		repo,
 	}
 }
 
 func (uc *registerUseCase) RegisterUser(login, password, email, firstname, lastname string) (
-	usr *user.User, err error) {
+	usr *User, err error) {
 
 	ID, err := uuid.NewV4()
 	if err != nil {
 		return
 	}
 
-	hashedPass, err := user.HashPassword(password)
+	hashedPass, err := HashPassword(password)
 	if err != nil {
 		return
 	}
 
-	usr = &user.User{
+	usr = &User{
 		ID,
 		login,
 		hashedPass,

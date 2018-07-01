@@ -1,7 +1,6 @@
-package usecases
+package core
 
 import (
-	"github.com/easerp/erp-core/user"
 	uuid "github.com/satori/go.uuid"
 )
 
@@ -18,12 +17,8 @@ type AuthorizationUseCase interface {
 	Authorize(permission string) error
 }
 
-type UserContext interface {
-	GetUserID() (uuid.UUID, error)
-}
-
 type authorizationUseCase struct {
-	repo user.RoleRepo
+	repo RoleRepo
 	ctx  UserContext
 }
 

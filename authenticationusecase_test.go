@@ -1,34 +1,33 @@
-package usecases
+package core
 
 import (
 	"testing"
 
-	"github.com/easerp/erp-core/user"
 	uuid "github.com/satori/go.uuid"
 )
 
 type mockUserRepo struct{}
 
-func (repo *mockUserRepo) Create(*user.User) error {
+func (repo *mockUserRepo) Create(*User) error {
 	return nil
 }
 
-func (repo *mockUserRepo) Update(*user.User) error {
+func (repo *mockUserRepo) Update(*User) error {
 	return nil
 }
 
-func (repo *mockUserRepo) Find(uuid.UUID) (usr *user.User, err error) {
+func (repo *mockUserRepo) Find(uuid.UUID) (usr *User, err error) {
 	return getMockUser("admin", "admin@google.com")
 }
 
-func getMockUser(login, email string) (usr *user.User, err error) {
+func getMockUser(login, email string) (usr *User, err error) {
 	userID, err := uuid.NewV4()
 	if err != nil {
 		return
 	}
 
-	hash, err := user.HashPassword("rahasiadong")
-	usr = &user.User{
+	hash, err := HashPassword("rahasiadong")
+	usr = &User{
 		userID,
 		"admin",
 		hash,
@@ -45,11 +44,11 @@ func (repo *mockUserRepo) Delete(uuid.UUID) error {
 	return nil
 }
 
-func (repo *mockUserRepo) FindByEmail(email string) (*user.User, error) {
+func (repo *mockUserRepo) FindByEmail(email string) (*User, error) {
 	return getMockUser("admin", email)
 }
 
-func (repo *mockUserRepo) FindByLogin(login string) (*user.User, error) {
+func (repo *mockUserRepo) FindByLogin(login string) (*User, error) {
 	return getMockUser(login, "admin@google.com")
 }
 
